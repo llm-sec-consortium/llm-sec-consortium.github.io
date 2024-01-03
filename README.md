@@ -22,6 +22,7 @@
 - **Install:** `yarn install`
 - **Start:** `yarn dev`
 - **Build:** `yarn build`
+- **Deploy:** `yarn run deploy`
 
 ## Upgrade to PRO Version
 

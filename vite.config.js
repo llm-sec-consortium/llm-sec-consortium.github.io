@@ -6,6 +6,11 @@ import checker from 'vite-plugin-checker';
 // ----------------------------------------------------------------------
 
 export default defineConfig({
+  base: '/',
+  root: '.',
+  build: {
+    outDir: './dist'
+  },
   plugins: [
     react(),
     checker({
