@@ -1,6 +1,7 @@
-# Website
+# LLM Security Consortium Homepage
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+This website is coupled with an auxiliary project.
+Most of the contents are automatically generated and maintained.
 
 ### Installation
 
