@@ -94,28 +94,23 @@ const config = {
         style: 'dark',
         links: [
           {
-            title: 'Docs',
+            title: 'Sitemap',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
-              },
-            ],
-          },
-          {
-            title: 'Community',
-            items: [
-              {
-                label: 'Stack Overflow',
-                href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+                label: 'News',
+                to: '/news',
               },
               {
-                label: 'Discord',
-                href: 'https://discordapp.com/invite/docusaurus',
+                label: 'CVEs',
+                to: '/CVE',
               },
               {
-                label: 'Twitter',
-                href: 'https://twitter.com/docusaurus',
+                label: 'Papers',
+                to: '/markdown-page',
+              },
+              {
+                label: 'Paper Reading Notes',
+                to: '/blog',
               },
             ],
           },
@@ -123,17 +118,13 @@ const config = {
             title: 'More',
             items: [
               {
-                label: 'Blog',
-                to: '/blog',
-              },
-              {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/llm-sec-consortium',
               },
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Yuekang Li. Built with Docusaurus + AntDesign.`,
+        copyright: `Copyright © ${new Date().getFullYear()} LLM Security Consortium.`,
       },
       prism: {
         theme: prismThemes.github,

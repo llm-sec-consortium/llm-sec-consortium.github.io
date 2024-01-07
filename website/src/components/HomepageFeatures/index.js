@@ -1,7 +1,10 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
-import { Card, Col, Row, Divider, Typography, Space } from 'antd';
+import { Card, Col, Row, Divider, Typography, Space, Avatar, Button } from 'antd';
+import {HomeOutlined, TwitterOutlined, GithubOutlined} from '@ant-design/icons';
+
+const { Meta } = Card;
 
 const { Title } = Typography;
 
@@ -52,6 +55,43 @@ function Feature({Svg, title, description}) {
   );
 }
 
+function FounderCard({name, intro, photo, home, twitter, github, title, affiliation}) {
+  return (
+    <Card hoverable bordered={false}
+          actions={[
+            <Button type="text" href={home} icon={<HomeOutlined />} />,
+            <Button type="text" href={github} icon={<GithubOutlined />} />,
+            <Button type="text" href={twitter} icon={<TwitterOutlined />} />
+          ]}>
+      <Meta
+        avatar={<Avatar src={photo}/>}
+        title={name}
+        description={
+          <div>
+            <p><strong>{title} @ {affiliation}</strong></p>
+            <Divider/>
+            <p>{intro}</p>
+          </div>
+        }
+      />
+    </Card>
+  );
+}
+
+function MemberCard({name, photo, title, affiliation}) {
+  return (
+    <Card hoverable bordered={false}>
+      <Meta
+        avatar={<Avatar src={photo}/>}
+        title={name}
+        description={
+          <p><strong>{title} @ {affiliation}</strong></p>
+        }
+      />
+    </Card>
+  );
+}
+
 export default function HomepageFeatures() {
   return (
     <section className={styles.features}>
@@ -71,25 +111,83 @@ export default function HomepageFeatures() {
         <Title>People</Title>
         <Title level={2}>Founders</Title>
         <Row gutter={16}>
+          <Col span={8}>
+            <FounderCard
+              name={"Yuekang Li"}
+              intro={"haha"}
+              photo={'img/members/profile-pic-lyk.png'}
+              home={'https://thepatrickstar.github.io'}
+              github={'https://github.com/ThePatrickStar'}
+              twitter={''}
+              title={'Lecturer (Assistant Professor)'}
+              affiliation={'University of New South Wales'}
+            />
+          </Col>
+          <Col span={8}>
+            <FounderCard
+              name={"Guozhu Meng"}
+              intro={"haha"}
+              twitter={''}
+              title={'Associate Professor'}
+              affiliation={'University of Chinese Academy of Sciences'}
+            />
+          </Col>
+          <Col span={8}>
+            <FounderCard
+              name={"Kailong Wang"}
+              intro={"haha"}
+              twitter={''}
+              title={'Associate Professor'}
+              affiliation={'Huazhong University of Science and Technology'}
+            />
+          </Col>
+        </Row>
+        <Row gutter={16} style={{marginTop: '16px'}}>
           <Col span={6}>
-            <Card title="Card title" bordered={false}>
-              Card content
-            </Card>
+            <FounderCard
+              name={"Yi Liu"}
+              intro={"haha"}
+              twitter={''}
+              title={'PhD Candidate'}
+              affiliation={'Nanyang Technological University'}
+            />
           </Col>
           <Col span={6}>
-            <Card title="Card title" bordered={false}>
-              Card content
-            </Card>
+            <FounderCard
+              name={"Gelei Deng"}
+              intro={"haha"}
+              twitter={''}
+              title={'PhD Candidate'}
+              affiliation={'Nanyang Technological University'}
+            />
           </Col>
           <Col span={6}>
-            <Card title="Card title" bordered={false}>
-              Card content
-            </Card>
+            <FounderCard
+              name={"Tong Liu"}
+              intro={"haha"}
+              twitter={''}
+              title={'PhD Candidate'}
+              affiliation={'University of Chinese Academy of Sciences'}
+            />
           </Col>
           <Col span={6}>
-            <Card title="Card title" bordered={false}>
-              Card content
-            </Card>
+            <FounderCard
+              name={"Zizhuang Deng"}
+              intro={"haha"}
+              twitter={''}
+              title={'PhD Candidate'}
+              affiliation={'University of Chinese Academy of Sciences'}
+            />
+          </Col>
+        </Row>
+        <Title level={2} style={{marginTop: '16px'}}>Members</Title>
+        <Row gutter={16} style={{marginTop: '16px'}}>
+          <Col span={6}>
+            <MemberCard
+              name={"..."}
+              title={'PhD Candidate'}
+              affiliation={'...'}
+            />
           </Col>
         </Row>
       </div>
