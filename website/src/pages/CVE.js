@@ -114,7 +114,7 @@ const defaultTitle = () => 'List of CVEs';
 const CVE = () => {
   const [bordered, setBordered] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [size, setSize] = useState('large');
+  const [size, setSize] = useState('middle');
   const [expandable, setExpandable] = useState(defaultExpandable);
   const [showTitle, setShowTitle] = useState(false);
   const [tableLayout, setTableLayout] = useState();

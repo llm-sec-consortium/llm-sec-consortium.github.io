@@ -49,8 +49,8 @@ function FounderCard({name, intro, photo, home, twitter, github, title, affiliat
         description={
           <div>
             <p style={{minHeight: "50px"}}><strong>{title} @ {affiliation}</strong></p>
-            <Divider/>
-            <p style={{minHeight: "100px"}}>{intro}</p>
+            {/*<Divider/>*/}
+            {/*<p style={{minHeight: "100px"}}>{intro}</p>*/}
           </div>
         }
       />
@@ -65,7 +65,7 @@ function MemberCard({name, photo, title, affiliation}) {
         avatar={<Avatar src={photo}/>}
         title={name}
         description={
-          <p><strong>{title} @ {affiliation}</strong></p>
+          <p style={{minHeight: "50px"}}><strong>{title} @ {affiliation}</strong></p>
         }
       />
     </Card>
