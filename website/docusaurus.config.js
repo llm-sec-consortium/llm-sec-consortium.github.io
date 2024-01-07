@@ -81,7 +81,7 @@ const config = {
           // },
           {to: '/news', label: 'News', position: 'left'},
           {to: '/CVE', label: 'CVEs', position: 'left'},
-          {to: '/markdown-page', label: 'Papers', position: 'left'},
+          {to: '/paper', label: 'Papers', position: 'left'},
           {to: '/blog', label: 'Paper Reading Notes', position: 'left'},
           {to: '/people', label: 'People', position: 'left'},
           {

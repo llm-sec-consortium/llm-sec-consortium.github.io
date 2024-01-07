@@ -47,7 +47,7 @@ const columns = [
         {keywords.map((keyword) => {
           return (
             // TODO improve this, add more colors
-            <Tag color={keywordToColor(keyword)} key={keyword}>
+            <Tag bordered={false} color={keywordToColor(keyword)} key={keyword}>
               {keyword.toUpperCase()}
             </Tag>
           );
