@@ -1,242 +1,156 @@
 import React, { useState } from 'react';
-import { DownOutlined } from '@ant-design/icons';
-import { Form, Radio, Space, Switch, Table } from 'antd';
+import { CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons';
+import { Form, Radio, Space, Switch, Table, List, Tag } from 'antd';
 import Layout from '@theme/Layout';
+
+import cveList from '@site/static/data/cves.json';
+
+// get the unique keywords used for finding these CVEs
+const uniqueKeywords = [...new Set(cveList.map(
+  record => record.keywords.map((keyword) => keyword.toUpperCase())).flat(1))];
+// map them into colors
+// https://stackoverflow.com/questions/64513938/map-strings-to-a-color-selected-from-a-predefined-array-javascript
+const COLORS = ['red', 'volcano', 'orange', 'gold', 'yellow', 'lime',
+  'green', 'cyan', 'blue', 'geekblue', 'purple', 'magenta']
+const hashString = (string) => string.split('').map((char) => char.charCodeAt(0)).reduce((a, b) => a + b, 0)
+const keywordToColor = (string) => COLORS[hashString(string) % COLORS.length];
+
+const keywordFilters = uniqueKeywords.map((keyword) => ({text: keyword, value: keyword}));
+
+// get the unique keywords used for finding these CVEs
+const uniqueYears = [...new Set(cveList.map(record => record.year))];
+const yearFilters = uniqueYears.map((year) => ({text: year, value: year}));
+
 
 const columns = [
   {
-    title: 'Name',
-    dataIndex: 'name',
+    title: 'CVE ID',
+    dataIndex: 'cve_id',
+    key: 'cve_id',
+    // NOTE assume there are less than 1000000 CVEs per year
+    sorter: (a, b) => (a.year - b.year)*1000000 + (a.year_id - b.year_id),
+    sortDirections: ['descend', 'ascend'],
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    sorter: (a, b) => a.age - b.age,
+    title: 'Year',
+    dataIndex: 'year',
+    key: 'year',
+    filters: yearFilters,
+    onFilter: (value, record) => record.year === value
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
+    title: 'Keywords',
+    dataIndex: 'keywords',
+    key: 'keywords',
+    render: (keywords) => (
+      <>
+        {keywords.map((keyword) => {
+          return (
+            // TODO improve this, add more colors
+            <Tag color={keywordToColor(keyword)} key={keyword}>
+              {keyword.toUpperCase()}
+            </Tag>
+          );
+        })}
+      </>
+    ),
+    filters: keywordFilters,
+    onFilter: (value, record) => record.keywords.map((keyword) => keyword.toUpperCase()).includes(value)
+  },
+  {
+    title: 'Description',
+    dataIndex: 'description',
+    key: 'description',
+  },
+  {
+    title: 'Found by Us',
+    dataIndex: 'found_by_us',
+    key: 'found_by_us',
+    render: (found_by_us) => {
+      return found_by_us ? <CheckCircleTwoTone twoToneColor='green'/>
+        : <CloseCircleTwoTone twoToneColor='red'/>;
+    },
     filters: [
       {
-        text: 'London',
-        value: 'London',
+        text: "By Us",
+        value: true
       },
       {
-        text: 'New York',
-        value: 'New York',
-      },
+        text: "By Others",
+        value: false
+      }
     ],
-    onFilter: (value, record) => record.address.indexOf(value) === 0,
+    onFilter: (value, record) => record.found_by_us === value
   },
   {
     title: 'Action',
     key: 'action',
-    sorter: true,
-    render: () => (
+    render: (record) => (
       <Space size="middle">
-        <a>Delete</a>
-        <a>
-          <Space>
-            More actions
-            <DownOutlined />
-          </Space>
-        </a>
+        <a href={record.official_link}>View on CVE.org</a>
       </Space>
     ),
   },
 ];
-const data = [];
-for (let i = 1; i <= 10; i++) {
-  data.push({
-    key: i,
-    name: 'John Brown',
-    age: Number(`${i}2`),
-    address: `New York No. ${i} Lake Park`,
-    description: `My name is John Brown, I am ${i}2 years old, living in New York No. ${i} Lake Park.`,
-  });
-}
+
 const defaultExpandable = {
-  expandedRowRender: (record) => <p>{record.description}</p>,
+  expandedRowRender: (record) => {
+    return (
+      <List
+        header={<div>References</div>}
+        itemLayout="horizontal"
+        dataSource={record.references}
+        renderItem={(item, index) => (
+          <List.Item>
+            [{index+1}] <a href={item}>{item}</a>
+          </List.Item>
+        )}
+      />
+    );
+  },
+  rowExpandable: (record) => record.references.length > 0
 };
-const defaultTitle = () => 'Here is title';
-const defaultFooter = () => 'Here is footer';
+const defaultTitle = () => 'List of CVEs';
 const CVE = () => {
   const [bordered, setBordered] = useState(false);
   const [loading, setLoading] = useState(false);
   const [size, setSize] = useState('large');
   const [expandable, setExpandable] = useState(defaultExpandable);
   const [showTitle, setShowTitle] = useState(false);
-  const [showHeader, setShowHeader] = useState(true);
-  const [showFooter, setShowFooter] = useState(true);
-  const [rowSelection, setRowSelection] = useState({});
-  const [hasData, setHasData] = useState(true);
   const [tableLayout, setTableLayout] = useState();
-  const [top, setTop] = useState('none');
-  const [bottom, setBottom] = useState('bottomRight');
   const [ellipsis, setEllipsis] = useState(false);
-  const [yScroll, setYScroll] = useState(false);
-  const [xScroll, setXScroll] = useState();
-  const handleBorderChange = (enable) => {
-    setBordered(enable);
-  };
-  const handleLoadingChange = (enable) => {
-    setLoading(enable);
-  };
-  const handleSizeChange = (e) => {
-    setSize(e.target.value);
-  };
-  const handleTableLayoutChange = (e) => {
-    setTableLayout(e.target.value);
-  };
-  const handleExpandChange = (enable) => {
-    setExpandable(enable ? defaultExpandable : undefined);
-  };
-  const handleEllipsisChange = (enable) => {
-    setEllipsis(enable);
-  };
-  const handleTitleChange = (enable) => {
-    setShowTitle(enable);
-  };
-  const handleHeaderChange = (enable) => {
-    setShowHeader(enable);
-  };
-  const handleFooterChange = (enable) => {
-    setShowFooter(enable);
-  };
-  const handleRowSelectionChange = (enable) => {
-    setRowSelection(enable ? {} : undefined);
-  };
-  const handleYScrollChange = (enable) => {
-    setYScroll(enable);
-  };
-  const handleXScrollChange = (e) => {
-    setXScroll(e.target.value);
-  };
-  const handleDataChange = (newHasData) => {
-    setHasData(newHasData);
-  };
-  const scroll = {};
-  if (yScroll) {
-    scroll.y = 240;
-  }
-  if (xScroll) {
-    scroll.x = '100vw';
-  }
+
+
   const tableColumns = columns.map((item) => ({
     ...item,
     ellipsis,
   }));
-  if (xScroll === 'fixed') {
-    tableColumns[0].fixed = true;
-    tableColumns[tableColumns.length - 1].fixed = 'right';
-  }
+
   const tableProps = {
     bordered,
     loading,
     size,
     expandable,
     title: showTitle ? defaultTitle : undefined,
-    showHeader,
-    footer: showFooter ? defaultFooter : undefined,
-    rowSelection,
-    scroll,
+    // scroll: {y: 500},
     tableLayout,
+    pagination: {
+      showSizeChanger: true
+    }
   };
   return (
-    <Layout title="CVEs" description="Hello React Page">
-      <Form
-        layout="inline"
-        className="components-table-demo-control-bar"
-        style={{
-          marginBottom: 16,
-        }}
-      >
-        <Form.Item label="Bordered">
-          <Switch checked={bordered} onChange={handleBorderChange} />
-        </Form.Item>
-        <Form.Item label="loading">
-          <Switch checked={loading} onChange={handleLoadingChange} />
-        </Form.Item>
-        <Form.Item label="Title">
-          <Switch checked={showTitle} onChange={handleTitleChange} />
-        </Form.Item>
-        <Form.Item label="Column Header">
-          <Switch checked={showHeader} onChange={handleHeaderChange} />
-        </Form.Item>
-        <Form.Item label="Footer">
-          <Switch checked={showFooter} onChange={handleFooterChange} />
-        </Form.Item>
-        <Form.Item label="Expandable">
-          <Switch checked={!!expandable} onChange={handleExpandChange} />
-        </Form.Item>
-        <Form.Item label="Checkbox">
-          <Switch checked={!!rowSelection} onChange={handleRowSelectionChange} />
-        </Form.Item>
-        <Form.Item label="Fixed Header">
-          <Switch checked={!!yScroll} onChange={handleYScrollChange} />
-        </Form.Item>
-        <Form.Item label="Has Data">
-          <Switch checked={!!hasData} onChange={handleDataChange} />
-        </Form.Item>
-        <Form.Item label="Ellipsis">
-          <Switch checked={!!ellipsis} onChange={handleEllipsisChange} />
-        </Form.Item>
-        <Form.Item label="Size">
-          <Radio.Group value={size} onChange={handleSizeChange}>
-            <Radio.Button value="large">Large</Radio.Button>
-            <Radio.Button value="middle">Middle</Radio.Button>
-            <Radio.Button value="small">Small</Radio.Button>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item label="Table Scroll">
-          <Radio.Group value={xScroll} onChange={handleXScrollChange}>
-            <Radio.Button value={undefined}>Unset</Radio.Button>
-            <Radio.Button value="scroll">Scroll</Radio.Button>
-            <Radio.Button value="fixed">Fixed Columns</Radio.Button>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item label="Table Layout">
-          <Radio.Group value={tableLayout} onChange={handleTableLayoutChange}>
-            <Radio.Button value={undefined}>Unset</Radio.Button>
-            <Radio.Button value="fixed">Fixed</Radio.Button>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item label="Pagination Top">
-          <Radio.Group
-            value={top}
-            onChange={(e) => {
-              setTop(e.target.value);
-            }}
-          >
-            <Radio.Button value="topLeft">TopLeft</Radio.Button>
-            <Radio.Button value="topCenter">TopCenter</Radio.Button>
-            <Radio.Button value="topRight">TopRight</Radio.Button>
-            <Radio.Button value="none">None</Radio.Button>
-          </Radio.Group>
-        </Form.Item>
-        <Form.Item label="Pagination Bottom">
-          <Radio.Group
-            value={bottom}
-            onChange={(e) => {
-              setBottom(e.target.value);
-            }}
-          >
-            <Radio.Button value="bottomLeft">BottomLeft</Radio.Button>
-            <Radio.Button value="bottomCenter">BottomCenter</Radio.Button>
-            <Radio.Button value="bottomRight">BottomRight</Radio.Button>
-            <Radio.Button value="none">None</Radio.Button>
-          </Radio.Group>
-        </Form.Item>
-      </Form>
-      <Table
-        {...tableProps}
-        pagination={{
-          position: [top, bottom],
-        }}
-        columns={tableColumns}
-        dataSource={hasData ? data : []}
-        scroll={scroll}
-      />
+    <Layout
+      title={`CVEs related to LLM frameworks and apps`}
+      description="">
+      <main>
+        <div  style={{ background: "#EFF2F5", padding: "16px" }}>
+          <Table
+            {...tableProps}
+            columns={tableColumns}
+            dataSource={cveList}
+          />
+        </div>
+      </main>
     </Layout>
   );
 };
