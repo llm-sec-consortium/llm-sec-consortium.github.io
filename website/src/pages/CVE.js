@@ -39,7 +39,7 @@ const columns = [
     onFilter: (value, record) => record.year === value
   },
   {
-    title: 'Keywords',
+    title: 'Products',
     dataIndex: 'keywords',
     key: 'keywords',
     render: (keywords) => (
@@ -63,7 +63,7 @@ const columns = [
     key: 'description',
   },
   {
-    title: 'Found by Us',
+    title: 'By Us',
     dataIndex: 'found_by_us',
     key: 'found_by_us',
     render: (found_by_us) => {
@@ -72,11 +72,11 @@ const columns = [
     },
     filters: [
       {
-        text: "By Us",
+        text: "Found By Us",
         value: true
       },
       {
-        text: "By Others",
+        text: "Found By Others",
         value: false
       }
     ],

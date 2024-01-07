@@ -55,43 +55,6 @@ function Feature({Svg, title, description}) {
   );
 }
 
-function FounderCard({name, intro, photo, home, twitter, github, title, affiliation}) {
-  return (
-    <Card hoverable bordered={false}
-          actions={[
-            <a href={home}> <HomeFilled /> </a>,
-            // <Button type="text" href={home} icon={<HomeOutlined />} />,
-            <a href={github}> <GithubOutlined /> </a>,
-            <a href={twitter}> <TwitterOutlined /> </a>
-          ]}>
-      <Meta
-        avatar={<Avatar src={photo}/>}
-        title={name}
-        description={
-          <div>
-            <p style={{minHeight: "50px"}}><strong>{title} @ {affiliation}</strong></p>
-            <Divider/>
-            <p style={{minHeight: "100px"}}>{intro}</p>
-          </div>
-        }
-      />
-    </Card>
-  );
-}
-
-function MemberCard({name, photo, title, affiliation}) {
-  return (
-    <Card hoverable bordered={false}>
-      <Meta
-        avatar={<Avatar src={photo}/>}
-        title={name}
-        description={
-          <p><strong>{title} @ {affiliation}</strong></p>
-        }
-      />
-    </Card>
-  );
-}
 
 export default function HomepageFeatures() {
   return (
@@ -108,89 +71,6 @@ export default function HomepageFeatures() {
 
           Nulla ut felis sit amet nulla sagittis dignissim eu ut arcu. Ut tristique justo mauris. Mauris in justo leo. Aliquam odio risus, maximus in tortor porta, ultrices congue arcu. Aenean vitae dignissim odio, at vehicula felis. Etiam non imperdiet orci. Nullam dui ligula, volutpat in accumsan ac, venenatis tempus leo. Sed urna libero, facilisis et venenatis bibendum, tristique at libero. Nunc dui nulla, viverra quis aliquet nec, mollis vel eros. Mauris elementum accumsan leo ut lobortis. Vivamus auctor nec arcu quis sagittis. Pellentesque in lectus vel nibh pellentesque dignissim et eget risus.
         </p>
-        <Divider/>
-        <Title>People</Title>
-        <Title level={2}>Founders</Title>
-        <Row gutter={16}>
-          <Col span={8}>
-            <FounderCard
-              name={"Yuekang Li"}
-              intro={"haha"}
-              photo={'img/members/profile-pic-lyk.png'}
-              home={'https://thepatrickstar.github.io'}
-              github={'https://github.com/ThePatrickStar'}
-              twitter={''}
-              title={'Lecturer (Assistant Professor)'}
-              affiliation={'University of New South Wales'}
-            />
-          </Col>
-          <Col span={8}>
-            <FounderCard
-              name={"Guozhu Meng"}
-              intro={"haha"}
-              twitter={''}
-              title={'Associate Professor'}
-              affiliation={'University of Chinese Academy of Sciences'}
-            />
-          </Col>
-          <Col span={8}>
-            <FounderCard
-              name={"Kailong Wang"}
-              intro={"haha"}
-              twitter={''}
-              title={'Associate Professor'}
-              affiliation={'Huazhong University of Science and Technology'}
-            />
-          </Col>
-        </Row>
-        <Row gutter={16} style={{marginTop: '16px'}}>
-          <Col span={6}>
-            <FounderCard
-              name={"Yi Liu"}
-              intro={"haha"}
-              twitter={''}
-              title={'PhD Candidate'}
-              affiliation={'Nanyang Technological University'}
-            />
-          </Col>
-          <Col span={6}>
-            <FounderCard
-              name={"Gelei Deng"}
-              intro={"haha"}
-              twitter={''}
-              title={'PhD Candidate'}
-              affiliation={'Nanyang Technological University'}
-            />
-          </Col>
-          <Col span={6}>
-            <FounderCard
-              name={"Tong Liu"}
-              intro={"haha"}
-              twitter={''}
-              title={'PhD Candidate'}
-              affiliation={'University of Chinese Academy of Sciences'}
-            />
-          </Col>
-          <Col span={6}>
-            <FounderCard
-              name={"Zizhuang Deng"}
-              intro={"haha"}
-              twitter={''}
-              title={'PhD Candidate'}
-              affiliation={'University of Chinese Academy of Sciences'}
-            />
-          </Col>
-        </Row>
-        <Title level={2} style={{marginTop: '16px'}}>Members</Title>
-        <Row gutter={16} style={{marginTop: '16px'}}>
-          <Col span={6}>
-            <MemberCard
-              name={"..."}
-              title={'PhD Candidate'}
-              affiliation={'...'}
-            />
-          </Col>
-        </Row>
       </div>
     </section>
   );

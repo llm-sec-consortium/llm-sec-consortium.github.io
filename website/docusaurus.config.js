@@ -83,6 +83,7 @@ const config = {
           {to: '/CVE', label: 'CVEs', position: 'left'},
           {to: '/markdown-page', label: 'Papers', position: 'left'},
           {to: '/blog', label: 'Paper Reading Notes', position: 'left'},
+          {to: '/people', label: 'People', position: 'left'},
           {
             href: 'https://github.com/facebook/docusaurus',
             label: 'GitHub',
