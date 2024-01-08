@@ -48,7 +48,7 @@ function FounderCard({name, intro, photo, home, twitter, github, title, affiliat
         title={name}
         description={
           <div>
-            <p style={{minHeight: "50px"}}><strong>{title} @ {affiliation}</strong></p>
+            <p style={{minHeight: "80px"}}><strong>{title} @ {affiliation}</strong></p>
             {/*<Divider/>*/}
             {/*<p style={{minHeight: "100px"}}>{intro}</p>*/}
           </div>
@@ -65,7 +65,7 @@ function MemberCard({name, photo, title, affiliation}) {
         avatar={<Avatar src={photo}/>}
         title={name}
         description={
-          <p style={{minHeight: "50px"}}><strong>{title} @ {affiliation}</strong></p>
+          <p style={{minHeight: "80px"}}><strong>{title} @ {affiliation}</strong></p>
         }
       />
     </Card>
@@ -85,7 +85,7 @@ export default function Home() {
             <Title>People</Title>
             <Title level={2}>Founders</Title>
             <Row gutter={16}>
-              <Col span={8}>
+              <Col span={6}>
                 <FounderCard
                   name={"Yuekang Li"}
                   intro={"haha"}
@@ -97,7 +97,7 @@ export default function Home() {
                   affiliation={'University of New South Wales'}
                 />
               </Col>
-              <Col span={8}>
+              <Col span={6}>
                 <FounderCard
                   name={"Guozhu Meng"}
                   intro={"haha"}
@@ -106,13 +106,22 @@ export default function Home() {
                   affiliation={'University of Chinese Academy of Sciences'}
                 />
               </Col>
-              <Col span={8}>
+              <Col span={6}>
                 <FounderCard
                   name={"Kailong Wang"}
                   intro={"haha"}
                   twitter={''}
                   title={'Associate Professor'}
                   affiliation={'Huazhong University of Science and Technology'}
+                />
+              </Col>
+              <Col span={6}>
+                <FounderCard
+                  name={"Yulei Sui"}
+                  intro={"haha"}
+                  twitter={''}
+                  title={'Associate Professor'}
+                  affiliation={'University of New South Wales'}
                 />
               </Col>
             </Row>
